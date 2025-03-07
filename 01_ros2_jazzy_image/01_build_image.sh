@@ -5,7 +5,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
            --platform linux/amd64 \
            -t pxl_ros2_jazzy:latest .
 else
-    echo "Running this script on macOS..."
+    echo "Running this script on Windows/Linux..."
     docker build \
            -t pxl_ros2_jazzy:latest .
 fi
