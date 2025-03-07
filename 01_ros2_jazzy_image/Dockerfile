@@ -44,6 +44,10 @@ RUN \
   chown -R 1000:0 /home/kasm-user && \
   rm -Rf ${INST_DIR}
 
+
+######### Customize Container Here ###########
+
+
 # Install ROS2
 RUN \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
@@ -76,10 +80,15 @@ RUN \
 
 RUN echo "source /opt/ros/jazzy/setup.bash" >>  $HOME/.bashrc
 
-# Userspace Runtime
+
+######### End Customizations ###########
+RUN chown 1000:0 $HOME
+RUN $STARTUPDIR/set_user_permission.sh $HOME
+
 ENV HOME /home/kasm-user
 WORKDIR $HOME
-USER 1000
+RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
+USER 1000
 
 CMD ["--tail-log"]
