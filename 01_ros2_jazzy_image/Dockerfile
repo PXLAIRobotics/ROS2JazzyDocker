@@ -72,10 +72,14 @@ RUN \
     && apt install -y ros-jazzy-turtlebot4-simulator \ 
     && apt install -y ros-jazzy-turtlebot4-tests \ 
     && apt install -y ros-jazzy-turtlebot4-viz 
-   
+
+
+RUN echo "source /opt/ros/jazzy/setup.bash" >>  $HOME/.bashrc
+
 # Userspace Runtime
 ENV HOME /home/kasm-user
 WORKDIR $HOME
 USER 1000
+
 
 CMD ["--tail-log"]
