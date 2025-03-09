@@ -52,11 +52,12 @@ RUN \
 RUN \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null \
-    && apt update && apt install -y ros-dev-tools ros-jazzy-desktop tmux \
-    && apt install -y ros-jazzy-nav2-minimal-tb4-description \
+    && apt update && apt install -y ros-dev-tools ros-jazzy-desktop
+
+# Adding Turtlebot4
+RUN apt install -y ros-jazzy-nav2-minimal-tb4-description \
     && apt install -y ros-jazzy-nav2-minimal-tb4-sim \
     && apt install -y ros-jazzy-turtlebot4-base \
-    && apt install -y ros-jazzy-turtlebot4-base-dbgsym \
     && apt install -y ros-jazzy-turtlebot4-bringup \
     && apt install -y ros-jazzy-turtlebot4-description \
     && apt install -y ros-jazzy-turtlebot4-desktop \
@@ -65,20 +66,50 @@ RUN \
     && apt install -y ros-jazzy-turtlebot4-gz-gui-plugins \
     && apt install -y ros-jazzy-turtlebot4-gz-gui-plugins-dbgsym \ 
     && apt install -y ros-jazzy-turtlebot4-gz-toolbox \ 
-    && apt install -y ros-jazzy-turtlebot4-gz-toolbox-dbgsym \ 
-    && apt install -y ros-jazzy-turtlebot4-msgs \ 
-    && apt install -y ros-jazzy-turtlebot4-msgs-dbgsym \ 
+    && apt install -y ros-jazzy-turtlebot4-msgs \  
     && apt install -y ros-jazzy-turtlebot4-navigation \ 
     && apt install -y ros-jazzy-turtlebot4-node \ 
-    && apt install -y ros-jazzy-turtlebot4-node-dbgsym \ 
     && apt install -y ros-jazzy-turtlebot4-robot \ 
     && apt install -y ros-jazzy-turtlebot4-setup \ 
     && apt install -y ros-jazzy-turtlebot4-simulator \ 
     && apt install -y ros-jazzy-turtlebot4-tests \ 
-    && apt install -y ros-jazzy-turtlebot4-viz 
+    && apt install -y ros-jazzy-turtlebot4-viz
 
+# Addint a few tools
+RUN apt install -y tmux htop vim
 
-RUN echo "source /opt/ros/jazzy/setup.bash" >>  $HOME/.bashrc
+# Change XFCE workspaces to one
+RUN sed -i '/<property name="workspace_count"/s/value="4"/value="1"/' $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml 
+
+# Set PS1 to something simple
+RUN echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '" >> $HOME/.bashrc
+
+# Configure tmux
+RUN mkdir -p $HOME/.tmux/plugins/tpm
+RUN git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm             \
+    && git clone https://github.com/jimeh/tmux-themepack.git $HOME/.tmux-themepack    
+
+COPY ./.tmux.conf $HOME/.tmux.conf
+
+# Tmux doesn't load bashrc by default, it loads ~/.bash_profile 
+RUN echo 'source "$HOME/.bashrc"' >> $HOME/.bash_profile 
+
+# Add ll alias
+RUN echo "alias ll='ls --color=auto -alFH'" >> $HOME/.bashrc
+
+# Source the ROS2 installation.
+RUN echo "source /opt/ros/jazzy/setup.bash" >> $HOME/.bashrc
+
+# Set some decent colors if the container needs to be accessed via /bin/bash.
+RUN mkdir $HOME/bin
+
+RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> $HOME/.bashrc \
+    && echo export LS_COLORS >> $HOME/.bashrc                     \
+    && echo 'alias tmux="tmux -2"' >> $HOME/.bashrc               \
+    && echo 'PATH=~/bin:$PATH' >> $HOME/.bashrc
+
+# Source colcon
+RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> $HOME/.bashrc
 
 
 ######### End Customizations ###########
