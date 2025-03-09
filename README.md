@@ -65,7 +65,7 @@ cd ROS2JazzyDocker
 ## Accessing the Desktop Environment
 After running the container, you can access the **KasmVNC** desktop by opening a web browser and navigating to:
 ```
-http://localhost:6901
+https://localhost:6901
 ```
 Default login credentials:
 - **Username:** `kasm-user`
