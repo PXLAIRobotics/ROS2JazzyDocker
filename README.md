@@ -1,13 +1,12 @@
 # PXL ROS2 Jazzy Docker Image with KasmVNC
 
-This repository provides a Docker container for ROS2 Jazzy that includes **KasmVNC**, allowing users to access a desktop environment for running simulations and other ROS2 applications.
+This repository provides a Docker container for ROS2 Jazzy that includes **KasmVNC**, allowing users to access the Xfce desktop environment via HTTPS for running simulations and other ROS2 applications.
 
 ## Features
 - **Ubuntu 24.04 Docker container** with **ROS2 Jazzy** pre-installed.
 - **KasmVNC** for desktop access within the container.
-- **Ubuntu Desktop** accessible via port **6901**. ([https://localhost:6901](https://localhost:6901) user: ``kasm_user`` password: ``password``.)
+- **Xfce Desktop** accessible via port **6901**. ([https://localhost:6901](https://localhost:6901) user: ``kasm_user`` password: ``password``.)
 - Scripts to build, run, attach, stop, and remove the container and image.
-- Supports headless operation and remote access.
 
 ## Requirements
 - **Docker** installed on your system ([Install Docker](https://docs.docker.com/get-docker/)).
