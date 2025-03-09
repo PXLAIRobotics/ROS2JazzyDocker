@@ -28,7 +28,7 @@ This repository provides a Docker container for ROS2 Jazzy that includes **KasmV
 
 ### 1. Clone the Repository
 ```sh
-git clone git@github.com:PXLAIRobotics/ROS2JazzyDocker.git
+git clone https://github.com/PXLAIRobotics/ROS2JazzyDocker.git
 cd ROS2JazzyDocker
 ```
 
