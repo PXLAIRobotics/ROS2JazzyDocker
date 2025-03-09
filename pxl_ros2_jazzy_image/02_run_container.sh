@@ -29,6 +29,10 @@ else
     echo "No NVIDIA GPU detected."
 fi
 
+DOCKER_OPTS+=("-v" "`pwd`/../Commands/bin:/home/kasm-user/bin")
+DOCKER_OPTS+=("-v" "`pwd`/../ExampleCode:/home/kasm-user/ExampleCode")
+DOCKER_OPTS+=("-v" "`pwd`/../Data:/home/kasm-user/Data")
+
 DOCKER_OPTS+=("--privileged")
 DOCKER_OPTS+=("--shm-size=512m")
 DOCKER_OPTS+=("-p" "6901:6901")

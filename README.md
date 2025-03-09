@@ -68,7 +68,7 @@ After running the container, you can access the **KasmVNC** desktop by opening a
 https://localhost:6901
 ```
 Default login credentials:
-- **Username:** `kasm-user`
+- **Username:** `kasm_user`
 - **Password:** `password`
 
 ## Customization
