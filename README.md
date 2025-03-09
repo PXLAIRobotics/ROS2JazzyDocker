@@ -5,7 +5,7 @@ This repository provides a Docker container for ROS2 Jazzy that includes **KasmV
 ## Features
 - **Ubuntu 24.04 Docker container** with **ROS2 Jazzy** pre-installed.
 - **KasmVNC** for desktop access within the container.
-- **Ubuntu Desktop** accessible via port **6901**.
+- **Ubuntu Desktop** accessible via port **6901**. ([https://localhost:6901](https://localhost:6901) user: ``kasm_user`` password: ``password``.)
 - Scripts to build, run, attach, stop, and remove the container and image.
 - Supports headless operation and remote access.
 
