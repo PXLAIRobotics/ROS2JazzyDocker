@@ -1,0 +1,2 @@
+[console_scripts]
+example_node = example_package.example_node:main

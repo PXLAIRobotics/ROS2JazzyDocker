@@ -1,0 +1,17 @@
+LICENSE
+package.xml
+setup.cfg
+setup.py
+../../build/example_package/example_package.egg-info/PKG-INFO
+../../build/example_package/example_package.egg-info/SOURCES.txt
+../../build/example_package/example_package.egg-info/dependency_links.txt
+../../build/example_package/example_package.egg-info/entry_points.txt
+../../build/example_package/example_package.egg-info/requires.txt
+../../build/example_package/example_package.egg-info/top_level.txt
+../../build/example_package/example_package.egg-info/zip-safe
+example_package/__init__.py
+example_package/example_node.py
+resource/example_package
+test/test_copyright.py
+test/test_flake8.py
+test/test_pep257.py

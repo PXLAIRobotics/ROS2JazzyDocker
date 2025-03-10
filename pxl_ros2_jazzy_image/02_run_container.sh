@@ -32,6 +32,8 @@ fi
 DOCKER_OPTS+=("-v" "`pwd`/../Commands/bin:/home/kasm-user/bin")
 DOCKER_OPTS+=("-v" "`pwd`/../ExampleCode:/home/kasm-user/ExampleCode")
 DOCKER_OPTS+=("-v" "`pwd`/../Data:/home/kasm-user/Data")
+DOCKER_OPTS+=("-v" "`pwd`/../Projects:/home/kasm-user/Projects")
+
 
 DOCKER_OPTS+=("--privileged")
 DOCKER_OPTS+=("--shm-size=512m")

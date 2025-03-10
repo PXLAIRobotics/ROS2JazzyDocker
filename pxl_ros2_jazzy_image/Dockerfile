@@ -100,9 +100,13 @@ RUN echo "alias ll='ls --color=auto -alFH'" >> $HOME/.bashrc
 # Source the ROS2 installation.
 RUN echo "source /opt/ros/jazzy/setup.bash" >> $HOME/.bashrc
 
-# Set some decent colors if the container needs to be accessed via /bin/bash.
-RUN mkdir $HOME/bin
+# Adding some directories so they always exist even when they aren't mounted as volumes
+RUN mkdir -p $HOME/bin $HOME/Data $HOME/Examplecode $HOME/Projects
 
+# Setting up a ROS workspace, so it's always present even when there isn't a mounted volume for the workspace.
+ADD ./ros2_workspace.tar.gz $HOME/Projects/
+
+# Set some decent colors if the container needs to be accessed via /bin/bash.
 RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> $HOME/.bashrc \
     && echo export LS_COLORS >> $HOME/.bashrc                     \
     && echo 'alias tmux="tmux -2"' >> $HOME/.bashrc               \
@@ -110,7 +114,7 @@ RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> $HOME/.bashrc \
 
 # Source colcon
 RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> $HOME/.bashrc
-
+RUN echo "source ~/Projects/ros2_workspace/install/local_setup.bash" >> $HOME/.bashrc
 
 ######### End Customizations ###########
 RUN chown 1000:0 $HOME

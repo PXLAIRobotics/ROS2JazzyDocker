@@ -1,0 +1,36 @@
+running egg_info
+creating ../../build/example_package/example_package.egg-info
+writing ../../build/example_package/example_package.egg-info/PKG-INFO
+writing dependency_links to ../../build/example_package/example_package.egg-info/dependency_links.txt
+writing entry points to ../../build/example_package/example_package.egg-info/entry_points.txt
+writing requirements to ../../build/example_package/example_package.egg-info/requires.txt
+writing top-level names to ../../build/example_package/example_package.egg-info/top_level.txt
+writing manifest file '../../build/example_package/example_package.egg-info/SOURCES.txt'
+reading manifest file '../../build/example_package/example_package.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/example_package/example_package.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/kasm-user/Projects/ros2_workspace/build/example_package/build
+creating /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib
+creating /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package
+copying example_package/__init__.py -> /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package
+copying example_package/example_node.py -> /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package
+running install
+running install_lib
+creating /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package
+copying /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package/__init__.py -> /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package
+copying /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package/example_node.py -> /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package
+byte-compiling /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package/example_node.py to example_node.cpython-312.pyc
+running install_data
+creating /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index
+creating /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index/resource_index
+creating /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index/resource_index/packages
+copying resource/example_package -> /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index/resource_index/packages
+copying package.xml -> /home/kasm-user/Projects/ros2_workspace/install/example_package/share/example_package
+running install_egg_info
+Copying ../../build/example_package/example_package.egg-info to /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package-0.0.0-py3.12.egg-info
+running install_scripts
+Installing example_node script to /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/example_package
+writing list of installed files to '/home/kasm-user/Projects/ros2_workspace/build/example_package/install.log'

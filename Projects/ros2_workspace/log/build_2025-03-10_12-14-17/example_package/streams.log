@@ -1,0 +1,38 @@
+[0.980s] Invoking command in '/home/kasm-user/Projects/ros2_workspace/src/example_package': PS1=\[[01;32m\]\u@\h\[[00m\]:\[[01;34m\]\W\[[00m\]$ PYTHONPATH=/home/kasm-user/Projects/ros2_workspace/build/example_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/example_package build --build-base /home/kasm-user/Projects/ros2_workspace/build/example_package/build install --record /home/kasm-user/Projects/ros2_workspace/build/example_package/install.log --single-version-externally-managed install_data
+[1.233s] running egg_info
+[1.235s] creating ../../build/example_package/example_package.egg-info
+[1.246s] writing ../../build/example_package/example_package.egg-info/PKG-INFO
+[1.247s] writing dependency_links to ../../build/example_package/example_package.egg-info/dependency_links.txt
+[1.249s] writing entry points to ../../build/example_package/example_package.egg-info/entry_points.txt
+[1.249s] writing requirements to ../../build/example_package/example_package.egg-info/requires.txt
+[1.249s] writing top-level names to ../../build/example_package/example_package.egg-info/top_level.txt
+[1.250s] writing manifest file '../../build/example_package/example_package.egg-info/SOURCES.txt'
+[1.275s] reading manifest file '../../build/example_package/example_package.egg-info/SOURCES.txt'
+[1.276s] adding license file 'LICENSE'
+[1.277s] writing manifest file '../../build/example_package/example_package.egg-info/SOURCES.txt'
+[1.279s] running build
+[1.280s] running build_py
+[1.280s] creating /home/kasm-user/Projects/ros2_workspace/build/example_package/build
+[1.280s] creating /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib
+[1.281s] creating /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package
+[1.281s] copying example_package/__init__.py -> /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package
+[1.281s] copying example_package/example_node.py -> /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package
+[1.287s] running install
+[1.288s] running install_lib
+[1.300s] creating /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package
+[1.301s] copying /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package/__init__.py -> /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package
+[1.302s] copying /home/kasm-user/Projects/ros2_workspace/build/example_package/build/lib/example_package/example_node.py -> /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package
+[1.304s] byte-compiling /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package/__init__.py to __init__.cpython-312.pyc
+[1.306s] byte-compiling /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package/example_node.py to example_node.cpython-312.pyc
+[1.307s] running install_data
+[1.308s] creating /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index
+[1.308s] creating /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index/resource_index
+[1.309s] creating /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index/resource_index/packages
+[1.309s] copying resource/example_package -> /home/kasm-user/Projects/ros2_workspace/install/example_package/share/ament_index/resource_index/packages
+[1.310s] copying package.xml -> /home/kasm-user/Projects/ros2_workspace/install/example_package/share/example_package
+[1.311s] running install_egg_info
+[1.323s] Copying ../../build/example_package/example_package.egg-info to /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages/example_package-0.0.0-py3.12.egg-info
+[1.331s] running install_scripts
+[1.420s] Installing example_node script to /home/kasm-user/Projects/ros2_workspace/install/example_package/lib/example_package
+[1.421s] writing list of installed files to '/home/kasm-user/Projects/ros2_workspace/build/example_package/install.log'
+[1.443s] Invoked command in '/home/kasm-user/Projects/ros2_workspace/src/example_package' returned '0': PS1=\[[01;32m\]\u@\h\[[00m\]:\[[01;34m\]\W\[[00m\]$ PYTHONPATH=/home/kasm-user/Projects/ros2_workspace/build/example_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kasm-user/Projects/ros2_workspace/install/example_package/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/example_package build --build-base /home/kasm-user/Projects/ros2_workspace/build/example_package/build install --record /home/kasm-user/Projects/ros2_workspace/build/example_package/install.log --single-version-externally-managed install_data
