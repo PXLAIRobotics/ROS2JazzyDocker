@@ -70,6 +70,27 @@ Default login credentials:
 - **Username:** `kasm_user`
 - **Password:** `password`
 
+### Testing ROS2
+
+To verify that ROS2 Jazzy is running correctly, follow these steps:
+
+Open a terminal by clicking the ``Applications`` menu in the **top left corner** and selecting ``Terminal Emulator``.
+
+Run the following command to start an example ROS 2 node:
+
+```
+ros2 run example_package example_node
+```
+
+If everything is set up correctly, you should see output similar to:
+
+```
+Hi from example_package.
+```
+
+This confirms that ROS 2 is properly installed and functional within the container.
+
+
 ## Showcase
 Below are screenshots showcasing the usage of this ROS 2 Jazzy Docker container:
 
