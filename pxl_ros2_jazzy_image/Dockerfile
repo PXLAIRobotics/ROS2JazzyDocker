@@ -101,7 +101,7 @@ RUN echo "alias ll='ls --color=auto -alFH'" >> $HOME/.bashrc
 RUN echo "source /opt/ros/jazzy/setup.bash" >> $HOME/.bashrc
 
 # Adding some directories so they always exist even when they aren't mounted as volumes
-RUN mkdir -p $HOME/bin $HOME/Data $HOME/Examplecode $HOME/Projects
+RUN mkdir -p $HOME/bin $HOME/Data $HOME/ExampleCode $HOME/Projects
 
 # Setting up a ROS workspace, so it's always present even when there isn't a mounted volume for the workspace.
 ADD ./ros2_workspace.tar.gz $HOME/Projects/
