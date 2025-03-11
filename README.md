@@ -70,6 +70,27 @@ Default login credentials:
 - **Username:** `kasm_user`
 - **Password:** `password`
 
+## Showcase
+Below are screenshots showcasing the usage of this ROS 2 Jazzy Docker container:
+
+### Ubuntu Desktop
+
+<p align="center">
+  <img height="350" src="./Images/UbuntuXfceDesktop.png">
+</p>
+
+### Running ROS 2 Simulation
+
+<p align="center">
+  <img height="350" src="./Images/ROS2.png">
+</p>
+
+### OpenCV Example
+
+<p align="center">
+  <img height="350" src="./Images/OpenCV.png">
+</p>
+
 ## Customization
 - Modify the `Dockerfile` in `pxl_ros2_jazzy_image` to add additional dependencies.
 - Update the scripts to configure network settings, volumes, or GPU access.
