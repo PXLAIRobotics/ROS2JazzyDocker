@@ -122,6 +122,16 @@ Feel free to fork this repository and submit pull requests for improvements or a
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Third-Party Code Attribution
+This project includes code from third-party sources:
+
+- **Kasm Technologies**
+  - The `src/` directory in `pxl_ros2_jazzy_image/` is a direct copy from Kasm Technologies' repository.
+  - Portions of Kasm Technologies' code are also used in the `Dockerfile` with modifications.
+  - Their original MIT license is retained in `pxl_ros2_jazzy_image/src/LICENSE`.
+
+All third-party code follows their respective licenses.
+
 ## Author
 Maintained by **Tim Dupont** ([GitHub Profile](https://github.com/TimDupontPXL)).
 

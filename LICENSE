@@ -20,6 +20,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+Portions of this project include code from Kasm Technologies Inc, which is licensed under
+the MIT License. The original license for that code can be found in `pxl_ros2_jazzy_image/src/LICENSE.md`.
+
+The `Dockerfile` in `pxl_ros2_jazzy_image/` contains portions of code from Kasm Technologies Inc,
+with modifications. The original license applies to those portions, and this project follows the 
+same MIT licensing terms.
+
 Additionally, while we strive to provide accurate and reliable software, we
 acknowledge that mistakes may occur. We welcome feedback, bug reports, and
 contributions to improve this project. 🤖🚀🔧

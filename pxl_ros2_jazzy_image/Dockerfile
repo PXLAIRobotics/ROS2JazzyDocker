@@ -1,3 +1,7 @@
+# This Dockerfile includes portions of code from Kasm Technologies Inc,
+# which is licensed under the MIT License (see 'pxl_ros2_jazzy_image/src/LICENSE.md').
+# Additional modifications have been made by PXL University of Applied Sciences and Arts.
+
 ARG BASE_TAG="develop"
 ARG BASE_IMAGE="core-ubuntu-noble"
 FROM kasmweb/$BASE_IMAGE:$BASE_TAG
@@ -115,6 +119,9 @@ RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> $HOME/.bashrc \
 # Source colcon
 RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> $HOME/.bashrc
 RUN echo "source ~/Projects/ros2_workspace/install/local_setup.bash" >> $HOME/.bashrc
+
+# Clean up
+RUN rm -rf /var/lib/apt/list/*
 
 ######### End Customizations ###########
 RUN chown 1000:0 $HOME
