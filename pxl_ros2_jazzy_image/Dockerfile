@@ -2,7 +2,7 @@
 # which is licensed under the MIT License (see 'pxl_ros2_jazzy_image/src/LICENSE.md').
 # Additional modifications have been made by PXL University of Applied Sciences and Arts.
 
-ARG BASE_TAG="develop"
+ARG BASE_TAG="1.16.1"
 ARG BASE_IMAGE="core-ubuntu-noble"
 FROM kasmweb/$BASE_IMAGE:$BASE_TAG
 
@@ -56,7 +56,9 @@ RUN \
 RUN \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null \
-    && apt update && apt install -y ros-dev-tools ros-jazzy-desktop
+    && apt update && apt install -y ros-dev-tools ros-jazzy-desktop \
+    && rm -rf /var/lib/apt/list/*
+
 
 # Adding Turtlebot4
 RUN apt install -y ros-jazzy-nav2-minimal-tb4-description \
@@ -77,10 +79,12 @@ RUN apt install -y ros-jazzy-nav2-minimal-tb4-description \
     && apt install -y ros-jazzy-turtlebot4-setup \ 
     && apt install -y ros-jazzy-turtlebot4-simulator \ 
     && apt install -y ros-jazzy-turtlebot4-tests \ 
-    && apt install -y ros-jazzy-turtlebot4-viz
+    && apt install -y ros-jazzy-turtlebot4-viz \
+    && rm -rf /var/lib/apt/list/*
 
 # Addint a few tools
-RUN apt install -y tmux htop vim
+RUN apt install -y tmux htop vim \
+    && rm -rf /var/lib/apt/list/*
 
 # Change XFCE workspaces to one
 RUN sed -i '/<property name="workspace_count"/s/value="4"/value="1"/' $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml 
@@ -99,7 +103,7 @@ COPY ./.tmux.conf $HOME/.tmux.conf
 RUN echo 'source "$HOME/.bashrc"' >> $HOME/.bash_profile 
 
 # Add ll alias
-RUN echo "alias ll='ls --color=auto -alFH'" >> $HOME/.bashrc
+RUN echo "alias ll='ls --color=auto -alFh'" >> $HOME/.bashrc
 
 # Source the ROS2 installation.
 RUN echo "source /opt/ros/jazzy/setup.bash" >> $HOME/.bashrc
@@ -112,16 +116,33 @@ ADD ./ros2_workspace.tar.gz $HOME/Projects/
 
 # Set some decent colors if the container needs to be accessed via /bin/bash.
 RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> $HOME/.bashrc \
-    && echo export LS_COLORS >> $HOME/.bashrc                     \
-    && echo 'alias tmux="tmux -2"' >> $HOME/.bashrc               \
-    && echo 'PATH=~/bin:$PATH' >> $HOME/.bashrc
+    && echo export LS_COLORS                     >> $HOME/.bashrc \
+    && echo 'alias tmux="tmux -2"'               >> $HOME/.bashrc \
+    && echo 'PATH=~/bin:$PATH'                   >> $HOME/.bashrc
 
 # Source colcon
 RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> $HOME/.bashrc
-RUN echo "source ~/Projects/ros2_workspace/install/local_setup.bash" >> $HOME/.bashrc
+RUN echo "source ~/Projects/ros2_workspace/install/local_setup.bash"         >> $HOME/.bashrc
 
-# Clean up
-RUN rm -rf /var/lib/apt/list/*
+# Add a clean workspace function
+RUN echo 'clean_and_rebuild_ros2_workspace() {'                                            >> $HOME/.bashrc && \
+    echo '    CLEANUP_SCRIPT="$HOME/bin/remove_colcon_dirs_and_rebuild_in_ros2_workspace"' >> $HOME/.bashrc && \
+    echo '    ROS2_SETUP="$HOME/Projects/ros2_workspace/install/setup.bash"'               >> $HOME/.bashrc && \
+    echo ''                                                                                >> $HOME/.bashrc && \
+    echo '    if [[ -f "$CLEANUP_SCRIPT" ]]; then'                                         >> $HOME/.bashrc && \
+    echo '        echo "Executing cleanup script..."'                                      >> $HOME/.bashrc && \
+    echo '        bash "$CLEANUP_SCRIPT"'                                                  >> $HOME/.bashrc && \
+    echo '    else'                                                                        >> $HOME/.bashrc && \
+    echo '        echo "Cleanup script not found: $CLEANUP_SCRIPT"'                        >> $HOME/.bashrc && \
+    echo '    fi'                                                                          >> $HOME/.bashrc && \
+    echo ''                                                                                >> $HOME/.bashrc && \
+    echo '    if [[ -f "$ROS2_SETUP" ]]; then'                                             >> $HOME/.bashrc && \
+    echo '        echo "Sourcing ROS2 workspace setup script..."'                          >> $HOME/.bashrc && \
+    echo '        source "$ROS2_SETUP"'                                                    >> $HOME/.bashrc && \
+    echo '    else'                                                                        >> $HOME/.bashrc && \
+    echo '        echo "ROS2 workspace setup script not found: $ROS2_SETUP"'               >> $HOME/.bashrc && \
+    echo '    fi'                                                                          >> $HOME/.bashrc && \
+    echo '}'                                                                               >> $HOME/.bashrc
 
 ######### End Customizations ###########
 RUN chown 1000:0 $HOME

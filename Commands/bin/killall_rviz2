@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kill -9 `ps ax | grep rviz2 | awk '{ print $1 }'`

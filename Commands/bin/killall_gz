@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kill -9 `ps ax | grep 'gz\ sim' | awk '{ print $1 }'`
