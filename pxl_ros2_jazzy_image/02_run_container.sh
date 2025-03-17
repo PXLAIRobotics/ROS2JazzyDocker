@@ -36,7 +36,7 @@ DOCKER_OPTS+=("-v" "`pwd`/../Projects:/home/kasm-user/Projects")
 
 
 DOCKER_OPTS+=("--privileged")
-DOCKER_OPTS+=("--shm-size=512m")
+DOCKER_OPTS+=("--shm-size=1GB")
 DOCKER_OPTS+=("-p" "6901:6901")
 DOCKER_OPTS+=("-e" "VNC_PW=password")
 DOCKER_OPTS+=("pxl_ros2_jazzy:latest")
