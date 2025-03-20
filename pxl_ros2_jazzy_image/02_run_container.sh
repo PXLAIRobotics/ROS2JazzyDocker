@@ -17,13 +17,24 @@ fi
 # Check if nvidia-smi is available (indicating an NVIDIA GPU)
 if command -v nvidia-smi &>/dev/null; then
     echo "NVIDIA GPU detected."
-    
-    # Check if the NVIDIA runtime is available in Docker
-    if docker info | grep -q "Runtimes:.*nvidia"; then
-        echo "Docker NVIDIA runtime is available."
-        DOCKER_OPTS+=("--gpus" "all")
+
+    # Run nvidia-smi and capture its exit code
+    nvidia-smi &>/dev/null
+    EXIT_CODE=$?
+    echo $EXIT_CODE
+
+    if [[ $EXIT_CODE -eq 0 || $EXIT_CODE -eq 139 ]]; then
+        echo "nvidia-smi executed successfully (Exit code: $EXIT_CODE)."
+
+        # Check if the NVIDIA runtime is available in Docker
+        if docker info | grep -q "Runtimes:.*nvidia"; then
+            echo "Docker NVIDIA runtime is available."
+            DOCKER_OPTS+=("--gpus" "all")
+        else
+            echo "Docker NVIDIA runtime is NOT available."
+        fi
     else
-        echo "Docker NVIDIA runtime is NOT available."
+        echo "nvidia-smi failed (Exit code: $EXIT_CODE). Skipping GPU options."
     fi
 else
     echo "No NVIDIA GPU detected."
