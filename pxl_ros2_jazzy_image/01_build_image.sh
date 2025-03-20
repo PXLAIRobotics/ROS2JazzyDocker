@@ -7,5 +7,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
 else
     echo "Running this script on Windows/Linux..."
     docker build \
+           --build-arg UID=$UID
            -t pxl_ros2_jazzy:latest .
 fi
