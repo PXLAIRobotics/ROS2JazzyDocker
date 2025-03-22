@@ -145,7 +145,7 @@ RUN echo 'clean_and_rebuild_ros2_workspace() {'                                 
     echo '}'                                                                               >> $HOME/.bashrc
 
 ######### End Customizations ###########
-ARG UID 1000
+ARG UID=1000
 RUN chown $UID:0 $HOME
 RUN $STARTUPDIR/set_user_permission.sh $HOME
 
