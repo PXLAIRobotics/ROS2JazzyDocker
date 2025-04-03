@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Start headless Gazebo simulation (-s) and auto-run (-r)
+gz sim -s -r ~/ExampleCode/03_Simulations/02_tugbot_racetrack2/tugbot_racetrack2.sdf > sim_output.log 2>&1 &
+
+# Wait a bit to ensure Gazebo loads properly before starting bridges
+sleep 5
+
+# Bridge front camera image topic
+ros2 run ros_gz_bridge parameter_bridge \
+    /world/tugbot_racetrack2/model/tugbot/link/camera_front/sensor/color/image@sensor_msgs/msg/Image@gz.msgs.Image \
+    --ros-args -r /world/tugbot_racetrack2/model/tugbot/link/camera_front/sensor/color/image:=/tugbot/front_camera \
+    > front_camera_output.log 2>&1 &
+
+# Bridge back camera image topic
+ros2 run ros_gz_bridge parameter_bridge \
+    /world/tugbot_racetrack2/model/tugbot/link/camera_back/sensor/color/image@sensor_msgs/msg/Image@gz.msgs.Image \
+    --ros-args -r /world/tugbot_racetrack2/model/tugbot/link/camera_back/sensor/color/image:=/tugbot/back_camera \
+    > back_camera_output.log 2>&1 &
+
+# Bridge cmd_vel topic
+ros2 run ros_gz_bridge parameter_bridge \
+    /model/tugbot/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist \
+    --ros-args -r /model/tugbot/cmd_vel:=/tugbot/cmd_vel \
+    > cmd_vel_output.log 2>&1 &
+
+# Wait for all background jobs
+wait

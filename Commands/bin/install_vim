@@ -1,0 +1,11 @@
+#!/bin/bash
+
+sudo apt update
+sudo apt install -y exuberant-ctags
+
+mkdir -p $HOME/.vim/bundle \
+        && git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+
+wget -O $HOME/.vimrc https://raw.githubusercontent.com/PXLAIRobotics/ROSNoeticDocker/3be4e733453a4bb9b6fb7083884d635fceb5ca16/01_pxl_noetic_full_desktop/.vimrc
+
+vim -E -u NONE -S $HOME/.vimrc -C "+PluginInstall" -C "+qall";  exit 0

@@ -1,0 +1,189 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="tugbot_racetrack2">
+
+    <!-- Set the gravity to the value currently on our beloved planet. -->
+    <gravity>0 0 -9.8</gravity>
+
+    <!-- Open Dynamics Engine (ODE) is a physics engine written in C/C++. -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <max_contacts>10</max_contacts>
+    </physics>
+
+    <plugin name="ignition::gazebo::systems::Physics"          filename="libignition-gazebo-physics-system.so"          />
+    <plugin name="ignition::gazebo::systems::UserCommands"     filename="libignition-gazebo-user-commands-system.so"    />
+    <plugin name="ignition::gazebo::systems::SceneBroadcaster" filename="libignition-gazebo-scene-broadcaster-system.so"/>
+    <plugin name="ignition::gazebo::systems::Imu"              filename="ignition-gazebo-imu-system"                    />
+    
+    <plugin name="ignition::gazebo::systems::Sensors"          filename="ignition-gazebo-sensors-system">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- Configuring the Graphical User Interface --> 
+    <gui fullscreen="0">
+
+      <!-- 3D scene -->
+      <plugin filename="GzScene3D" name="3D View">
+        <ignition-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.4 0.4 0.4</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>13.4 -6.1 2.23 0 0.4 -1.83</camera_pose>
+      </plugin>
+
+
+      <!-- World control -->
+      <plugin filename="WorldControl" name="World control">
+        <ignition-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+      </plugin>
+
+      
+      <!-- Make it possbiele to move the objects in the screen. -->
+      <plugin filename="TransformControl" name="Transform control">
+        <ignition-gui>
+          <property type="bool" key="showTitleBar">false</property>
+          <property key="x" type="double">0</property>
+          <property key="y" type="double">0</property>
+          <property key="width" type="double">250</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="cardBackground" type="string">#666666</property>
+        </ignition-gui>
+      </plugin>
+
+      
+      <!-- Make it possible to make screenshots. -->
+      <plugin filename="Screenshot" name="Screenshot">
+        <ignition-gui>
+          <property type="bool" key="showTitleBar">false</property>
+          <property key="x" type="double">400</property>
+          <property key="y" type="double">0</property>
+          <property key="width" type="double">50</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="cardBackground" type="string">#666666</property>
+        </ignition-gui>
+      </plugin>
+      
+
+      <!-- Control the Robot from Gazebo (bypassing ROS2!) -->
+      <plugin filename="Teleop" name="Teleop">
+        <ignition-gui>
+          <property key="x" type="double">0</property>
+          <property key="y" type="double">0</property>
+          <property key="width" type="double">400</property>
+          <property key="height" type="double">900</property>
+          <property key="state" type="string">docked</property>
+        </ignition-gui>
+        <topic>/model/tugbot/cmd_vel</topic>
+      </plugin>
+    </gui>
+
+    <!-- Defining the virtual environment/scene: Let there be light! -->
+    <scene>
+      <ambient>1 1 1 1</ambient>
+      <background>0.3 0.7 0.9 1</background>
+      <shadows>0</shadows>
+      <grid>false</grid>
+    </scene>
+
+    <light type="directional" name="sun">
+      <cast_shadows>0</cast_shadows>
+      <pose>-5 -3 10 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <direction>0 0 -1</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- The racetrack -->
+    <model name="racetrack">
+      <pose>0 0 0.01 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <!-- Width and height of the plane -->
+              <!--          <size>63.83125 46.125</size> -->
+              <size>82.980625 59.9625</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+            <pbr>
+              <metal>
+                <albedo_map>materials/textures/racetrack2.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Tugbot -->
+    <include>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/MovAi/models/Tugbot
+      </uri>
+      <name>tugbot</name>
+      <pose>-10.0 18.0 0.0 0 0 0</pose>
+    </include>
+    
+  </world>
+</sdf>

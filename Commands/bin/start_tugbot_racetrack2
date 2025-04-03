@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Run Gazebo simulation and log output to sim_output.log
+gz sim ~/ExampleCode/03_Simulations/02_tugbot_racetrack2/tugbot_racetrack2.sdf > sim_output.log 2>&1 &
+
+# Front camera bridge: Remap to /tugbot/front_camera
+ros2 run ros_gz_bridge parameter_bridge \
+    /world/tugbot_racetrack2/model/tugbot/link/camera_front/sensor/color/image@sensor_msgs/msg/Image@gz.msgs.Image \
+    --ros-args -r /world/tugbot_racetrack2/model/tugbot/link/camera_front/sensor/color/image:=/tugbot/front_camera \
+    > front_camera_output.log 2>&1 &
+
+# Back camera bridge: Remap to /tugbot/back_camera
+ros2 run ros_gz_bridge parameter_bridge \
+    /world/tugbot_racetrack2/model/tugbot/link/camera_back/sensor/color/image@sensor_msgs/msg/Image@gz.msgs.Image \
+    --ros-args -r /world/tugbot_racetrack2/model/tugbot/link/camera_back/sensor/color/image:=/tugbot/back_camera \
+    > back_camera_output.log 2>&1 &
+
+# cmd_vel bridge: Remap to /tugbot/cmd_vel
+ros2 run ros_gz_bridge parameter_bridge \
+    /model/tugbot/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist \
+    --ros-args -r /model/tugbot/cmd_vel:=/tugbot/cmd_vel \
+    > cmd_vel_output.log 2>&1 &
+
+# Optional: Wait for all background jobs to complete
+wait
