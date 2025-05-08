@@ -21,6 +21,7 @@ RUN apt-get update \
 	&& apt-get --with-new-pkgs upgrade -y \
     && apt-get install -y sudo 
 
+# Add group user and user user
 ARG USERNAME=user
 ARG USER_UID=1001
 ARG USER_GID=1001
@@ -31,8 +32,13 @@ RUN if [ "$USER_UID" -eq 0 ]; then                                        \
         exit 1;                                                           \
     fi
 
-# Add group user and user user
-RUN groupadd -g ${USER_GID} ${USERNAME} \
+RUN if [ "$USER_UID" -eq 1000 ]; then \
+        export USER_UID=1001; \
+    fi \
+    && if [ "$USER_GID" -eq 1000 ]; then \
+        export USER_GID=1001; \
+    fi \
+    && groupadd -g ${USER_GID} ${USERNAME} \
     && useradd -ms /bin/bash -u ${USER_UID} -g ${USER_GID} ${USERNAME} \
     && echo "${USERNAME}:${USERNAME}" | chpasswd \
     && usermod -aG sudo ${USERNAME} \
