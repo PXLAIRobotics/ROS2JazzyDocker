@@ -1,0 +1,41 @@
+#!/bin/bash
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$HOME/ExampleCode/03_Simulations/03_drone_world/models
+
+# === Check and launch Gazebo only if it's not already running ===
+if ! pgrep -f "gz sim.*drone_world.sdf" > /dev/null; then
+  echo "Starting Gazebo simulation..."
+  gz sim ~/ExampleCode/03_Simulations/03_drone_world/drone_world.sdf > sim_output.log 2>&1 &
+else
+  echo "Gazebo simulation is already running."
+fi
+
+
+# === Check and launch ros_gz_bridge only if it's not running ===
+BRIDGE_CMD="ros2 run ros_gz_bridge parameter_bridge"
+BRIDGE_TOPIC="/world/x3_drone_world/model/X3/link/downward_camera_link/sensor/downward_camera_sensor/image"
+ROS_TOPIC="/x3/downward_camera"
+
+# Check if it's already running (looser match)
+if ! pgrep -f "parameter_bridge.*${BRIDGE_TOPIC}@sensor_msgs/msg/Image" > /dev/null; then
+  echo "Starting downward camera bridge..."
+  $BRIDGE_CMD \
+    $BRIDGE_TOPIC@sensor_msgs/msg/Image@gz.msgs.Image \
+    --ros-args -r $BRIDGE_TOPIC:=$ROS_TOPIC \
+    > downward_camera_output.log 2>&1 &
+else
+  echo "Downward camera bridge is already running."
+fi
+
+# === Check and launch ros_gz_bridge for cmd_vel if it's not running ===
+BRIDGE_CMD="ros2 run ros_gz_bridge parameter_bridge"
+BRIDGE_TOPIC="/X3/cmd_vel"
+
+if ! pgrep -f "$BRIDGE_CMD.*$BRIDGE_TOPIC" > /dev/null; then
+  echo "Starting cmd_vel bridge..."
+  $BRIDGE_CMD \
+    $BRIDGE_TOPIC@geometry_msgs/msg/Twist@gz.msgs.Twist \
+    --ros-args -r $BRIDGE_TOPIC:=/x3/cmd_vel \
+    > cmd_vel_bridge_output.log 2>&1 &
+else
+  echo "cmd_vel bridge is already running."
+fi

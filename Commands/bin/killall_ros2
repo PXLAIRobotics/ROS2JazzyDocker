@@ -1,3 +1,22 @@
 #!/bin/bash
 
-kill -9 `ps ax | grep ros2 | awk '{ print $1 }'`
+echo "Killing ROS-related processes in /opt/ros/ only..."
+
+# Find processes that originate from /opt/ros/
+pids=$(ps ax -o pid=,command= | grep "/opt/ros/" | grep -v grep | awk '{print $1}')
+
+if [ ! -z "$pids" ]; then
+    echo "Killing PIDs: $pids"
+    kill -9 $pids
+fi
+
+
+echo "Killing ROS-related processes in $HOME/Projects/ros2_workspace/ only..."
+
+# Find processes that originate from $HOME/Projects/ros2_workspace/
+pids=$(ps ax -o pid=,command= | grep "$HOME/Projects/ros2_workspace/" | grep -v grep | awk '{print $1}')
+
+if [ ! -z "$pids" ]; then
+    echo "Killing PIDs: $pids"
+    kill -9 $pids
+fi

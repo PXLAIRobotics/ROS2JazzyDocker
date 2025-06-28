@@ -80,6 +80,7 @@ RUN apt install -y ros-jazzy-nav2-minimal-tb4-description \
     && apt install -y ros-jazzy-turtlebot4-simulator \ 
     && apt install -y ros-jazzy-turtlebot4-tests \ 
     && apt install -y ros-jazzy-turtlebot4-viz \
+    && apt install -y ros-jazzy-topic-tools \ 
     && rm -rf /var/lib/apt/list/*
 
 # Addint a few tools
