@@ -1,6 +1,8 @@
 # This Dockerfile includes portions of code from Kasm Technologies Inc,
 # which is licensed under the MIT License (see 'pxl_ros2_jazzy_image/src/LICENSE.md').
 # Additional modifications have been made by PXL University of Applied Sciences and Arts.
+#
+# Lightweight Kasm workshop image: same ROS2/Turtlebot stack, trimmed desktop/apps.
 
 ARG BASE_TAG="1.16.1"
 ARG BASE_IMAGE="core-ubuntu-noble"
@@ -12,19 +14,15 @@ ENV HOME /home/kasm-default-profile
 ENV STARTUPDIR /dockerstartup
 WORKDIR $HOME
 
-### Envrionment config 
+### Environment config
 ENV DEBIAN_FRONTEND=noninteractive \
     SKIP_CLEAN=true \
     KASM_RX_HOME=$STARTUPDIR/kasmrx \
     DONT_PROMPT_WSL_INSTALL="No_Prompt_please" \
     INST_DIR=$STARTUPDIR/install \
-    INST_SCRIPTS="/ubuntu/install/tools/install_tools_deluxe.sh \
-                  /ubuntu/install/misc/install_tools.sh \
-                  /ubuntu/install/chrome/install_chrome.sh \
+    INST_SCRIPTS="/ubuntu/install/misc/install_tools.sh \
                   /ubuntu/install/firefox/install_firefox.sh \
                   /ubuntu/install/vs_code/install_vs_code.sh \
-                  /ubuntu/install/gimp/install_gimp.sh \
-                  /ubuntu/install/gamepad_utils/install_gamepad_utils.sh \
                   /ubuntu/install/cleanup/cleanup.sh"
 
 # updated and add sudo
@@ -36,7 +34,7 @@ RUN apt-get update \
 # Copy install scripts
 COPY ./src/ $INST_DIR
 
-# Run installations
+# Run installations (trimmed Kasm desktop/app set)
 RUN \
   for SCRIPT in $INST_SCRIPTS; do \
     bash ${INST_DIR}${SCRIPT} || exit 1; \
@@ -50,7 +48,6 @@ RUN \
 
 
 ######### Customize Container Here ###########
-
 
 # Install ROS2
 RUN \
@@ -70,25 +67,25 @@ RUN apt install -y ros-jazzy-nav2-minimal-tb4-description \
     && apt install -y ros-jazzy-turtlebot4-diagnostics \
     && apt install -y ros-jazzy-turtlebot4-gz-bringup \
     && apt install -y ros-jazzy-turtlebot4-gz-gui-plugins \
-    && apt install -y ros-jazzy-turtlebot4-gz-gui-plugins-dbgsym \ 
-    && apt install -y ros-jazzy-turtlebot4-gz-toolbox \ 
-    && apt install -y ros-jazzy-turtlebot4-msgs \  
-    && apt install -y ros-jazzy-turtlebot4-navigation \ 
-    && apt install -y ros-jazzy-turtlebot4-node \ 
-    && apt install -y ros-jazzy-turtlebot4-robot \ 
-    && apt install -y ros-jazzy-turtlebot4-setup \ 
-    && apt install -y ros-jazzy-turtlebot4-simulator \ 
-    && apt install -y ros-jazzy-turtlebot4-tests \ 
+    && apt install -y ros-jazzy-turtlebot4-gz-gui-plugins-dbgsym \
+    && apt install -y ros-jazzy-turtlebot4-gz-toolbox \
+    && apt install -y ros-jazzy-turtlebot4-msgs \
+    && apt install -y ros-jazzy-turtlebot4-navigation \
+    && apt install -y ros-jazzy-turtlebot4-node \
+    && apt install -y ros-jazzy-turtlebot4-robot \
+    && apt install -y ros-jazzy-turtlebot4-setup \
+    && apt install -y ros-jazzy-turtlebot4-simulator \
+    && apt install -y ros-jazzy-turtlebot4-tests \
     && apt install -y ros-jazzy-turtlebot4-viz \
-    && apt install -y ros-jazzy-topic-tools \ 
+    && apt install -y ros-jazzy-topic-tools \
     && rm -rf /var/lib/apt/list/*
 
-# Addint a few tools
+# Adding a few tools
 RUN apt install -y tmux htop vim \
     && rm -rf /var/lib/apt/list/*
 
 # Change XFCE workspaces to one
-RUN sed -i '/<property name="workspace_count"/s/value="4"/value="1"/' $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml 
+RUN sed -i '/<property name="workspace_count"/s/value="4"/value="1"/' $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml
 
 # Set PS1 to something simple
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '" >> $HOME/.bashrc
@@ -96,12 +93,12 @@ RUN echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\
 # Configure tmux
 RUN mkdir -p $HOME/.tmux/plugins/tpm
 RUN git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm             \
-    && git clone https://github.com/jimeh/tmux-themepack.git $HOME/.tmux-themepack    
+    && git clone https://github.com/jimeh/tmux-themepack.git $HOME/.tmux-themepack
 
 COPY ./.tmux.conf $HOME/.tmux.conf
 
-# Tmux doesn't load bashrc by default, it loads ~/.bash_profile 
-RUN echo 'source "$HOME/.bashrc"' >> $HOME/.bash_profile 
+# Tmux doesn't load bashrc by default, it loads ~/.bash_profile
+RUN echo 'source "$HOME/.bashrc"' >> $HOME/.bash_profile
 
 # Add ll alias
 RUN echo "alias ll='ls --color=auto -alFh'" >> $HOME/.bashrc
