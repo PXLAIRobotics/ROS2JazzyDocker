@@ -1,6 +1,8 @@
-# PXL ROS2 Jazzy Docker Image with KasmVNC
+# PXL ROS2 Development Environment
 
 This repository provides a Docker container for ROS2 Jazzy that includes **KasmVNC**, allowing users to access the Xfce desktop environment via HTTPS for running simulations and other ROS2 applications.
+
+For Windows users, there is also an alternative setup with a virtual machine.
 
 ## Features
 - **Ubuntu 24.04 Docker container** with **ROS2 Jazzy** pre-installed.
@@ -9,21 +11,62 @@ This repository provides a Docker container for ROS2 Jazzy that includes **KasmV
 - Scripts to build, run, attach, stop, and remove the container and image.
 
 ## Requirements
-- **Docker** installed on your system ([Install Docker](https://docs.docker.com/get-docker/)).
-- Recommended: **NVIDIA GPU** with drivers and NVIDIA Container Toolkit for hardware acceleration (optional).
+- **Windows (VM setup)**: VMware Workstation (Player/Pro).
+- **Linux/macOS (Docker setup)**: Docker installed on your system ([Install Docker](https://docs.docker.com/get-docker/)).
+- **Optional (Docker GPU accel)**: NVIDIA GPU + drivers + NVIDIA Container Toolkit.
 
-## Files in Repository
-| File                                             | Description                                      |
-|--------------------------------------------------|--------------------------------------------------|
-| `pxl_ros2_jazzy_image`                           | Directory containing Docker image files.         |
-| `001_build_pxl_ros2_jazzy_image.sh`              | Builds the Docker image.                         |
-| `002_run_pxl_ros2_jazzy_container.sh`            | Runs the container from the built image.         |
-| `003_attach_bash_to_pxl_ros2_jazzy_container.sh` | Opens a Bash shell inside the running container. |
-| `997_stop_pxl_ros2_jazzy_container.sh`           | Stops the running container.                     |
-| `998_remove_pxl_ros2_jazzy_container.sh`         | Removes the stopped container.                   |
-| `999_remove_pxl_ros2_jazzy_image.sh`             | Removes the built Docker image.                  |
+## Recommended Environment
 
-## Installation & Usage
+Pick **one** of the setups below:
+
+- **Windows users**: use the **VMware VM** (recommended for the workshop). Jump to: [Windows Setup (VMware VM)](#windows-setup-vmware-vm)
+- **Linux/macOS users**: use the **Docker + KasmVNC** environment from this repo. Jump to: [Linux/macOS Setup (Docker + KasmVNC)](#linuxmacos-setup-docker--kasmvnc)
+
+
+## Windows Setup (VMware VM)
+
+On Windows, GPU acceleration inside the KasmVNC Docker image can be unreliable depending on drivers/hardware. For workshops we recommend using a **prebuilt Ubuntu VM** that mirrors the tooling and folder layout used in the container.
+
+- **VM download**: `<empty_link>`
+- **Hypervisor**: VMware Workstation (Player/Pro)
+
+### VM setup (VMware Workstation)
+1. Install VMware Workstation (Player or Pro).
+2. Import/open the downloaded VM.
+3. Allocate resources (see [Troubleshooting](#troubleshooting) for guidelines).
+4. Start the VM and log in:
+   - user: `kasm_user`
+   - password: `password`
+
+### Testing inside the VM
+
+#### ROS2
+Open a terminal and run:
+
+```
+ros2 run example_package example_node
+```
+
+If everything is set up correctly, you should see output similar to:
+
+```
+Hi from example_package.
+```
+
+#### Gazebo simulator
+To test Gazebo, run:
+
+```
+gz sim
+```
+
+Start either the Prius On Sonoma Raceway or the Tugbot in Warehouse environment. Verify it's not flickering. If it is, go to the [Troubleshooting](#troubleshooting) section below.
+
+## Linux/macOS Setup (Docker + KasmVNC)
+
+Use the Docker-based KasmVNC environment from this repo (`pxl_ros2_jazzy_image`). Hardware acceleration tends to work well here, and everyone gets the same ROS2 Jazzy desktop setup in the browser.
+
+## Installation & Usage (Docker)
 
 ### 1. Clone the Repository
 ```sh
@@ -70,11 +113,13 @@ Default login credentials:
 - **Username:** `kasm_user`
 - **Password:** `password`
 
-### Testing ROS2
+### Testing inside the Docker desktop
 
+
+#### ROS2
 To verify that ROS2 Jazzy is running correctly, follow these steps:
 
-Open a terminal by clicking the ``Applications`` menu in the **top left corner** and selecting ``Terminal Emulator``.
+Open a terminal by clicking the `Applications` menu in the **top left corner** and selecting `Terminal Emulator`.
 
 Run the following command to start an example ROS 2 node:
 
@@ -89,6 +134,17 @@ Hi from example_package.
 ```
 
 This confirms that ROS 2 is properly installed and functional within the container.
+
+
+#### Gazebo simulator
+To test Gazebo, run:
+
+```
+gz sim
+```
+
+Start either the Prius On Sonoma Raceway or the Tugbot in Warehouse environment. 
+
 
 
 ## Showcase
@@ -116,6 +172,38 @@ Below are screenshots showcasing the usage of this ROS 2 Jazzy Docker container:
 - Modify the `Dockerfile` in `pxl_ros2_jazzy_image` to add additional dependencies.
 - Update the scripts to configure network settings, volumes, or GPU access.
 
+## Troubleshooting
+
+### Gazebo / `gz sim` flickering (VMware / Windows VM)
+Symptom: `gz sim` renders but the image **flickers constantly**.
+
+Fix (recommended): in VMware settings for the VM:
+- Disable **Accelerate 3D graphics**
+
+Why: VMware’s virtual 3D/OpenGL path can introduce rendering artifacts for Gazebo. Disabling it forces software rendering (more stable, usually slower).
+
+Typical console messages you may see after disabling 3D (expected):
+- `VMware: No 3D enabled (0, Success).`
+- `libEGL warning: egl: failed to create dri2 screen`
+
+Optional verification inside the VM:
+```sh
+glxinfo -B | egrep 'OpenGL renderer|OpenGL version'
+```
+If you see `llvmpipe`, you are on software rendering.
+
+### VM resource sizing (performance)
+Gazebo and RViz can be CPU/RAM intensive, especially with software rendering.
+
+Guidelines for a smoother experience:
+- **RAM**: allocate at least **8 GB** (recommended **12–16 GB** if available).
+- **CPU**: allocate at least **4 vCPUs** (recommended **6–8 vCPUs** if available).
+
+If the VM feels sluggish:
+- Close unused applications inside the VM.
+- Reduce Gazebo window size / resolution.
+- Prefer simpler worlds or lower visual fidelity where possible.
+
 ## Contributing
 Feel free to fork this repository and submit pull requests for improvements or additional features.
 
@@ -133,7 +221,7 @@ This project includes code from third-party sources:
 All third-party code follows their respective licenses.
 
 ## Author
-Maintained by **Tim Dupont** ([GitHub Profile](https://github.com/TimDupontPXL)).
+Maintained by **Tim Dupont** ([GitHub Profile](https://github.com/TimDupontPXL)) and **Sam van Rijn** ([GitHub Profile](https://github.com/samvr-pxl)).
 
 ## Acknowledgments
 Special thanks to:
