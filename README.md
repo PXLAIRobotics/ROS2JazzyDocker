@@ -22,6 +22,8 @@ Pick **one** of the setups below:
 - **Windows users**: use the **VMware VM** (recommended for the workshop). Jump to: [Windows Setup (VMware VM)](#windows-setup-vmware-vm)
 - **Linux/macOS users**: use the **Docker + KasmVNC** environment from this repo. Jump to: [Linux/macOS Setup (Docker + KasmVNC)](#linuxmacos-setup-docker--kasmvnc)
 
+Take into account that you'll need about **16 GB** of free space on your hard drive.
+
 
 ## Windows Setup (VMware VM)
 
