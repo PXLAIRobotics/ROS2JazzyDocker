@@ -27,7 +27,7 @@ Pick **one** of the setups below:
 
 On Windows, GPU acceleration inside the KasmVNC Docker image can be unreliable depending on drivers/hardware. For workshops we recommend using a **prebuilt Ubuntu VM** that mirrors the tooling and folder layout used in the container.
 
-- **VM download**: `<empty_link>`
+- **VM download**: [Link](https://drive.google.com/file/d/1_3t9sCrLikfFIGgb2dHSEAXyMsm5wYCE/view?usp=sharing)
 - **Hypervisor**: VMware Workstation (Player/Pro)
 
 ### VM setup (VMware Workstation)
