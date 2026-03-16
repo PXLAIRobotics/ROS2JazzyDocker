@@ -121,8 +121,19 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 RUN sudo usermod -a -G video ${USERNAME}
 
-# Set PS1 to something simple
+# Set PS1 to something simple if powerline-shell fails, but we'll use powerline-shell
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '" >> $HOME/.bashrc
+
+# Install powerline-shell
+RUN pip install powerline-shell --break-system-packages
+
+# Configure .bashrc for powerline-shell
+RUN echo 'function _update_ps1() {' >> $HOME/.bashrc && \
+    echo '    PS1=$(powerline-shell $?)' >> $HOME/.bashrc && \
+    echo '}' >> $HOME/.bashrc && \
+    echo 'if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then' >> $HOME/.bashrc && \
+    echo '    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"' >> $HOME/.bashrc && \
+    echo 'fi' >> $HOME/.bashrc
 
 # Configure tmux
 RUN mkdir -p $HOME/.tmux/plugins/tpm
@@ -182,7 +193,7 @@ dbus-launch --exit-with-session gnome-session --session=gnome-flashback-metacity
 RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> $HOME/.bashrc \
     && echo export LS_COLORS                     >> $HOME/.bashrc \
     && echo 'alias tmux="tmux -2"'               >> $HOME/.bashrc \
-    && echo 'PATH=~/bin:$PATH'                   >> $HOME/.bashrc
+    && echo 'PATH=~/bin:~/.local/bin:$PATH'      >> $HOME/.bashrc
 
 # Source colcon
 RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> $HOME/.bashrc
