@@ -56,8 +56,10 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     python3-opencv libopencv-dev \
     && rm -rf /var/lib/apt/list/*
 
-# Disable GNOME Initial Setup
-RUN apt-get purge -y gnome-initial-setup && rm -rf /etc/gnome-initial-setup
+# Disable GNOME Initial Setup and remove bloatware
+RUN apt-get purge -y gnome-initial-setup libreoffice-* shotwell transmission-* rhythmbox* gnome-calendar \
+    && apt-get autoremove -y \
+    && rm -rf /etc/gnome-initial-setup
 
 # Install Firefox (Avoiding Snap)
 RUN apt-get update && apt-get install -y software-properties-common ca-certificates gnupg \
