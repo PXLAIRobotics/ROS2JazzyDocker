@@ -59,6 +59,14 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
 # Disable GNOME Initial Setup
 RUN apt-get purge -y gnome-initial-setup && rm -rf /etc/gnome-initial-setup
 
+# Install Firefox (Avoiding Snap)
+RUN apt-get update && apt-get install -y software-properties-common ca-certificates gnupg \
+    && add-apt-repository -y ppa:mozillateam/ppa \
+    && printf 'Package: *\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n' > /etc/apt/preferences.d/mozilla-firefox \
+    && mkdir -p /etc/apt/unattended-upgrades.d && printf 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";\n' > /etc/apt/unattended-upgrades.d/99mozilla-firefox \
+    && apt-get update && apt-get install -y --allow-downgrades firefox \
+    && rm -rf /var/lib/apt/list/*
+
 # Set XDG_RUNTIME_DIR
 ENV XDG_RUNTIME_DIR=/tmp/runtime-tigervnc
 RUN mkdir -p $XDG_RUNTIME_DIR && chown -R ${USERNAME}:${USERNAME} $XDG_RUNTIME_DIR && chmod 700 $XDG_RUNTIME_DIR
@@ -87,7 +95,7 @@ RUN apt update && apt install -y ros-jazzy-nav2-minimal-tb4-description \
     && rm -rf /var/lib/apt/list/*
 
 # Adding a few tools
-RUN apt install -y tmux htop vim \
+RUN apt install -y tmux htop vim universal-ctags \
     && rm -rf /var/lib/apt/list/*
 
 # Switching to user tigervnc
@@ -108,6 +116,17 @@ COPY --chown=${USERNAME}:${USERNAME} ./.tmux.conf $HOME/.tmux.conf
 
 # Tmux doesn't load bashrc by default, it loads ~/.bash_profile 
 RUN echo 'source "$HOME/.bashrc"' >> $HOME/.bash_profile 
+
+
+# 7. Vim Configuration (Vundle + Plugins)
+RUN mkdir -p /home/${USERNAME}/.vim/bundle \
+    && git clone https://github.com/VundleVim/Vundle.vim.git /home/${USERNAME}/.vim/bundle/Vundle.vim
+
+COPY --chown=${USERNAME}:${USERNAME} .vimrc $HOME/.vimrc
+
+# Automatically install plugins
+RUN set -x \
+    && vim -E -u NONE -S $HOME/.vimrc -C "+PluginInstall" -C "+qall"; exit 0
 
 # Add ll alias
 RUN echo "alias ll='ls --color=auto -alFh'" >> $HOME/.bashrc
