@@ -74,14 +74,20 @@ RUN apt-get update && apt-get install -y unzip \
     && fc-cache -f -v \
     && rm /tmp/CascadiaCode.zip
 
-# Configure gnome-terminal defaults (Green on Black, Nerd Font)
+# Configure gnome-terminal defaults (Green on Black, Nerd Font) and workspace settings
 RUN mkdir -p /usr/share/glib-2.0/schemas/ && \
     printf '[org.gnome.Terminal.Legacy.Profile]\n\
 use-theme-colors=false\n\
 foreground-color="#00FF00"\n\
 background-color="#000000"\n\
 use-system-font=false\n\
-font="CaskaydiaCove Nerd Font Mono 11"\n' > /usr/share/glib-2.0/schemas/99_gnome-terminal-defaults.gschema.override && \
+font="CaskaydiaCove Nerd Font Mono 11"\n\
+\n\
+[org.gnome.mutter]\n\
+dynamic-workspaces=false\n\
+\n\
+[org.gnome.desktop.wm.preferences]\n\
+num-workspaces=1\n' > /usr/share/glib-2.0/schemas/99_gnome-terminal-defaults.gschema.override && \
     glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 # Set XDG_RUNTIME_DIR
