@@ -67,6 +67,23 @@ RUN apt-get update && apt-get install -y software-properties-common ca-certifica
     && apt-get update && apt-get install -y --allow-downgrades firefox \
     && rm -rf /var/lib/apt/list/*
 
+# Install Nerd Font (Cascadia Code)
+COPY CascadiaCode.zip /tmp/
+RUN apt-get update && apt-get install -y unzip \
+    && unzip /tmp/CascadiaCode.zip -d /usr/share/fonts/truetype/cascadia \
+    && fc-cache -f -v \
+    && rm /tmp/CascadiaCode.zip
+
+# Configure gnome-terminal defaults (Green on Black, Nerd Font)
+RUN mkdir -p /usr/share/glib-2.0/schemas/ && \
+    printf '[org.gnome.Terminal.Legacy.Profile]\n\
+use-theme-colors=false\n\
+foreground-color="#00FF00"\n\
+background-color="#000000"\n\
+use-system-font=false\n\
+font="CaskaydiaCove Nerd Font Mono 11"\n' > /usr/share/glib-2.0/schemas/99_gnome-terminal-defaults.gschema.override && \
+    glib-compile-schemas /usr/share/glib-2.0/schemas/
+
 # Set XDG_RUNTIME_DIR
 ENV XDG_RUNTIME_DIR=/tmp/runtime-tigervnc
 RUN mkdir -p $XDG_RUNTIME_DIR && chown -R ${USERNAME}:${USERNAME} $XDG_RUNTIME_DIR && chmod 700 $XDG_RUNTIME_DIR
@@ -113,6 +130,10 @@ RUN git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm       
     && git clone https://github.com/jimeh/tmux-themepack.git $HOME/.tmux-themepack    
 
 COPY --chown=${USERNAME}:${USERNAME} ./.tmux.conf $HOME/.tmux.conf
+
+# Pre-install tmux plugins (TPM)
+RUN export TMUX_TMPDIR=/tmp && \
+    bash $HOME/.tmux/plugins/tpm/bin/install_plugins || true
 
 # Tmux doesn't load bashrc by default, it loads ~/.bash_profile 
 RUN echo 'source "$HOME/.bashrc"' >> $HOME/.bash_profile 
