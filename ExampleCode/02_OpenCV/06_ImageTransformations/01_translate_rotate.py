@@ -46,7 +46,7 @@ def main():
     translated = translate(image, 50, 50)
     cv2.imshow("Translated (50,50)", translated)
     cv2.waitKey()
-    
+
     translated = translate(image, -50, -50)
     cv2.imshow("Translated (-50,-50)", translated)
     cv2.waitKey()
@@ -76,6 +76,6 @@ def main():
     cv2.imshow("cv2 rotate cv2.ROTATE_180", rotated)
     cv2.waitKey()
 
-    
+
 if __name__ == "__main__":
     main()

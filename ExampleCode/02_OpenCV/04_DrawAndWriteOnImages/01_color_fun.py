@@ -19,7 +19,7 @@ def main():
     back then BGR color format was popular among camera manufacturers and
     software providers. E.g. in Windows, when specifying color value using
     COLORREF they use the BGR format 0x00bbggrr.
-    
+
     source: https://learnopencv.com/why-does-opencv-use-bgr-color-format/
     """
 

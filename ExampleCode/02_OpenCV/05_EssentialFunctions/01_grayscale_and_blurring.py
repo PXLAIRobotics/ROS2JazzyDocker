@@ -11,7 +11,7 @@ def rescale_image(image, scale=0.4):
     dimensions = (width, height)
 
     return cv2.resize(image, dimensions, interpolation=cv2.INTER_AREA)
-        
+
 
 def main():
     image = cv2.imread("../Images/pillars_of_creation.jpg")
@@ -19,7 +19,7 @@ def main():
     window_name = "[NASA] Pillars of creation (scaled)"
 
     scaled_image = rescale_image(image, 0.7)
-    
+
     cv2.imshow(window_name, scaled_image)
     cv2.waitKey(0)
 
@@ -28,7 +28,7 @@ def main():
     cv2.imshow("Gray scale", gray)
     cv2.waitKey(0)
 
-    
+
     # Removing noise by using bluring (a.k.a. smoothing.) 
     kernel = (5,5) # This is de kernal size, which needs to be an odd number
                    # It's the window size which OpenCV will use to calculate the blur.
@@ -36,7 +36,7 @@ def main():
     blur = cv2.GaussianBlur(scaled_image, kernel, sigmax)
     cv2.imshow("Blur (5,5)", blur)
     cv2.waitKey()
-    
+
     # Blur some more
     kernel = (13,13)
     blur2 = cv2.GaussianBlur(scaled_image, kernel, sigmax)

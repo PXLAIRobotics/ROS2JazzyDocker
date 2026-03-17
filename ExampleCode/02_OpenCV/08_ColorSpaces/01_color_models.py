@@ -11,7 +11,7 @@ def rescale_image(image, scale=0.4):
     dimensions = (width, height)
 
     return cv2.resize(image, dimensions, interpolation=cv2.INTER_AREA)
-        
+
 
 def main():
     image = cv2.imread("../Images/1280px-Color-wallpapers-30653-4019293.jpg")
@@ -37,7 +37,7 @@ def main():
     hsv = cv2.cvtColor(scaled_image, cv2.COLOR_BGR2HSV)
     cv2.imshow("HSV", hsv)
     cv2.waitKey(0)
-    
+
     # L*a*b
     # The CIELAB color space also referred to as L*a*b* is a color space defined
     # by the International Commission on Illumination (abbreviated CIE) in
@@ -54,7 +54,7 @@ def main():
     lab = cv2.cvtColor(scaled_image, cv2.COLOR_BGR2LAB)
     cv2.imshow("L*a*b", lab)
     cv2.waitKey(0)
-    
+
 
     # So, OpenCV uses BGR and a lot of other software components use RBG.
     # If an BGR isn't converted to RBG before being displayed by RGB software,
@@ -68,7 +68,7 @@ def main():
     # It's possible to transform BGR to different color spaces.
     # It's possible to transform different color spaces to BGR.
     # Since BGR is the default, all conversions need to pass this format. :-)
-    
+
 
 if __name__ == "__main__":
     main()

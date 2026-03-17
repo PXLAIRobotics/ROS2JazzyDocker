@@ -14,7 +14,7 @@ def main():
             cv2.imshow(window_name, frame)
         else:
             break
-        
+
         if cv2.waitKey(int(1)) & 0xFF == ord('q'):
             break
 

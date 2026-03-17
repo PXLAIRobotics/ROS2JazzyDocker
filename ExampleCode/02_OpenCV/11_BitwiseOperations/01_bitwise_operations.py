@@ -12,7 +12,7 @@ def rescale_image(image, scale=0.4):
     dimensions = (width, height)
 
     return cv2.resize(image, dimensions, interpolation=cv2.INTER_AREA)
-        
+
 
 def main():
     black = numpy.zeros((500, 500), dtype="uint8")
@@ -54,7 +54,7 @@ def main():
     bitwise_not_circle = cv2.bitwise_not(circle)
     cv2.imshow("NOT (Circle)", bitwise_not_circle)
     cv2.waitKey(0)
-    
-    
+
+
 if __name__ == "__main__":
     main()

@@ -31,14 +31,14 @@ def main():
     by John F. Canny in 1986. It is a multi-stage algorithm.
     It involves a lot of blurring, ...
 
-    See the source on more info about the parameters. 
+    See the source on more info about the parameters.
 
     source: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html
     """
     threshold1 = 100
     threshold2 = 200
     canny = cv2.Canny(scaled_image, threshold1, threshold2)
-    
+
     # Nice to know: Canny uses a Gaussian filter to reduce noise. (5x5 kernel)
     cv2.imshow("Canny (100,200)", canny)
     cv2.waitKey()
@@ -58,7 +58,7 @@ def main():
     canny_blurred = cv2.Canny(blurred, threshold1, threshold2)
     cv2.imshow("Canny (100,200) on blurred (5,5)", canny_blurred)
     cv2.waitKey()
-    
+
     kernel = (7, 7)
     sigmax = 1.5
     blurred = cv2.GaussianBlur(scaled_image, kernel, sigmax)

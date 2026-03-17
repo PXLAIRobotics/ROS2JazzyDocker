@@ -11,7 +11,7 @@ def rescale_image(image, scale=0.4):
     dimensions = (width, height)
 
     return cv2.resize(image, dimensions, interpolation=cv2.INTER_AREA)
-        
+
 
 def main():
     image = cv2.imread("../Images/pillars_of_creation.jpg")
@@ -29,7 +29,7 @@ def main():
     sigmax   = 0 # std deviation
     gaussian = cv2.GaussianBlur(scaled_image, kernel, sigmax)
     cv2.imshow("Gaussian", gaussian)
-    cv2.waitKey()    
+    cv2.waitKey()
 
     # Median blur
     kernel_size = 7
@@ -46,6 +46,6 @@ def main():
     cv2.imshow("Bilateral", bilateral)
     cv2.waitKey()
 
-    
+
 if __name__ == "__main__":
     main()

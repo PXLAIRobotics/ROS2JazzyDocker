@@ -10,13 +10,13 @@ def rescale_image(image, scale=0.4, interpolation=cv2.INTER_AREA):
     dimensions = (width, height)
 
     return cv2.resize(image, dimensions, interpolation)
-        
+
 
 def main():
     image = cv2.imread("../Images/640px-Curiosity_-_Robot_Geologist_and_Chemist_in_One!.jpg")
     cv2.imshow("Curiosity [640x360]", image)
     cv2.waitKey(0)
-    
+
     scaled_image = rescale_image(image, 0.7)
     cv2.imshow("Curiosity @ 0.7", scaled_image)
     cv2.waitKey(0)

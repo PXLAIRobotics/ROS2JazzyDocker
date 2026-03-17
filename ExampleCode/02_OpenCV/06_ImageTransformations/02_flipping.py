@@ -30,6 +30,6 @@ def main():
     flipped = cv2.flip(image, flipCode=2)
     cv2.imshow("Flipped 2 (horizontally)", flipped)
     cv2.waitKey()
-    
+
 if __name__ == "__main__":
     main()

@@ -21,10 +21,10 @@ def main():
     # Blue 75-130
     # Violet 130-160
     # Red 160-179
-    
+
     bound_low = numpy.array([0, 0, 0])
     bound_up  = numpy.array([0, 0, 0])
-    
+
     cv2.createTrackbar("Hue lower bound:", "Filtered", 0, 179, callback_trackbars)
     cv2.createTrackbar("Hue upper bound:", "Filtered", 0, 179, callback_trackbars)
     cv2.createTrackbar("Saturation lower bound:", "Filtered", 0, 255, callback_trackbars)
@@ -47,14 +47,14 @@ def main():
         filtered = cv2.bitwise_and(image, image, mask=mask)
 
         cv2.imshow("Filtered", filtered)
-        
+
         k = cv2.waitKey(1000) & 0xFF # large wait time to remove freezing
         if k == 113 or k == 27: # q or ESC to quit.
             break
-        
+
 
 def callback_trackbars(argument):
     pass
-    
+
 if __name__ == "__main__":
     main()
