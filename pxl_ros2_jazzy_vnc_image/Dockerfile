@@ -18,7 +18,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES \
 
 # Updated and add sudo
 RUN apt-get update \
-	&& apt-get --with-new-pkgs upgrade -y \
+	&& apt-get dist-upgrade -y \
     && apt-get install -y sudo 
 
 # Add user
@@ -58,8 +58,12 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
 
 # Disable GNOME Initial Setup and remove bloatware
 RUN apt-get purge -y gnome-initial-setup libreoffice-* shotwell transmission-* rhythmbox* gnome-calendar \
+    update-notifier* update-manager* \
     && apt-get autoremove -y \
     && rm -rf /etc/gnome-initial-setup
+
+# Disable Automatic Updates in APT
+RUN printf 'APT::Periodic::Update-Package-Lists "0";\nAPT::Periodic::Download-Upgradeable-Packages "0";\nAPT::Periodic::AutocleanInterval "0";\nAPT::Periodic::Unattended-Upgrade "0";\n' > /etc/apt/apt.conf.d/10periodic
 
 # Install Firefox (Avoiding Snap)
 RUN apt-get update && apt-get install -y software-properties-common ca-certificates gnupg \
@@ -97,7 +101,15 @@ font="CaskaydiaCove Nerd Font Mono 11"\n\
 dynamic-workspaces=false\n\
 \n\
 [org.gnome.desktop.wm.preferences]\n\
-num-workspaces=1\n' > /usr/share/glib-2.0/schemas/99_gnome-terminal-defaults.gschema.override && \
+num-workspaces=1\n\
+\n\
+[com.ubuntu.update-notifier]\n\
+no-repo-setup-error-notification=true\n\
+regular-auto-launch-interval=999999\n\
+\n\
+[com.ubuntu.update-manager]\n\
+launch-count=0\n\
+first-run=false\n' > /usr/share/glib-2.0/schemas/99_gnome-terminal-defaults.gschema.override && \
     glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 # Set XDG_RUNTIME_DIR
