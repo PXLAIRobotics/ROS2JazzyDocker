@@ -34,7 +34,7 @@ def main():
     # Median blur
     kernel_size = 7
     median      = cv2.medianBlur(scaled_image, kernel_size)
-    cv2.imshow("Median", gaussian)
+    cv2.imshow("Median", median)
     cv2.waitKey()
 
     # Bilateral blur
