@@ -106,6 +106,32 @@ cd ROS2JazzyDocker
 ./999_remove_pxl_ros2_jazzy_image.sh
 ```
 
+### Alternative: native Linux desktop (without VNC)
+
+The `novnc` image means **no VNC**: applications open on your host's X11/Xwayland desktop. Run from a terminal in your graphical Linux session, with `xauth` installed on the host:
+
+```sh
+./001b_build_pxl_ros2_jazzy_image.sh
+./002b_run_pxl_ros2_jazzy_novnc_container.sh
+```
+
+The launcher forwards `DISPLAY` and an Xauthority cookie, including for Wayland sessions using Xwayland. It requires a local X socket and a valid cookie. Inside the container, verify graphics and start RViz with:
+
+```sh
+glxinfo -B
+rviz2
+```
+
+The ROS 2 executable is `rviz2`. When the host driver and Docker NVIDIA runtime are available, the launcher automatically enables NVIDIA GPU and OpenGL support. Otherwise, a working host NVIDIA GPU without the Docker runtime uses Mesa software rendering (`llvmpipe`).
+
+For an apt-based Linux host with Docker Engine and systemd, install and configure the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) once:
+
+```sh
+sudo bash ./setup_nvidia_docker.sh
+```
+
+This installs the toolkit from NVIDIA's stable repository and restarts Docker, which may stop running containers. Then rerun the launcher and check `glxinfo -B` inside the container: the renderer should name your NVIDIA GPU. No image rebuild is required. Host `nvidia-smi` success alone does not provide GPU access inside Docker.
+
 ## Accessing the Desktop Environment
 After running the container, you can access the **KasmVNC** desktop by opening a web browser and navigating to:
 ```
